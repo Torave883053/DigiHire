@@ -1,23 +1,47 @@
 # email_utils.py
+
 import smtplib
 from email.mime.text import MIMEText
 from fastapi import BackgroundTasks
 
 SENDER_EMAIL = "toravepravin@gmail.com"
-SENDER_PASSWORD = "jhka novs metv ccyi"
+SENDER_PASSWORD = "jhka novs metv ccyi"   # App Password
 
-def send_reset_email(background_tasks: BackgroundTasks, to_email: str, Username: str,Password: str):
-    subject = "Welcome to DigiHire - Username and Password Information"
+
+def send_reset_email(
+    background_tasks: BackgroundTasks,
+    to_email: str,
+    Username: str,
+    Password: str,
+    LoginURL: str,
+    VendorName: str
+):
+    subject = "DigiHire | Your Vendor Account Login Details"
+
     body = f"""
-    Hello,
+Hello {VendorName},
 
-    Below are your Username and Password to access DigiHire:
-    Username :- {Username}
-    Password :- {Password}
+Welcome to DigiHire!
 
-    Regards,
-    DigiHire Team
-    """
+Your vendor account has been successfully created.
+Please find your login credentials below:
+
+----------------------------------------
+🔐 Login Credentials
+• Login URL : {LoginURL}
+• Username  : {Username}
+• Password  : {Password}
+----------------------------------------
+
+You can now log in and access your vendor dashboard.
+
+If you have any questions or need any assistance,
+please feel free to reach out to our support team.
+
+Best Regards,
+DigiHire Team
+www.digihire.com
+"""
 
     msg = MIMEText(body)
     msg["Subject"] = subject

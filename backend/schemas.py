@@ -1,4 +1,3 @@
-# schemas.py
 from pydantic import BaseModel, EmailStr, Field
 from typing import Optional
 
@@ -11,12 +10,16 @@ class VendorBase(BaseModel):
     gst_number: Optional[str] = None
     website: Optional[str] = None
 
+
 class VendorCreate(VendorBase):
-    vendor_code: str = Field(..., example="VEND-001")  # or generate in backend if you prefer
+    vendor_code: str = Field(..., example="VEND-001")
+    # No status here → Frontend does not send it
+
 
 class VendorOut(VendorBase):
     id: int
     vendor_code: str
+    status: str   # ⭐ Added field
 
     class Config:
         orm_mode = True

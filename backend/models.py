@@ -14,7 +14,11 @@ class Vendor(Base):
     vendor_code = Column(String(100), unique=True, nullable=False)
     gst_number = Column(String(50), nullable=True)
     website = Column(String(255), nullable=True)
-    password = Column(String(255),nullable=True)
+    password = Column(String(255), nullable=True)
+
+    # ⭐ NEW FIELD FOR TOGGLE STATUS
+    status = Column(String(20), default="inactive")   # active / inactive
+
 
 class User(Base):
     __tablename__ = "users"
