@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from database import get_db
-import crud, schemas
+from backend.db.database import get_db
+import backend.services.crud as crud, backend.schemas.schemas as schemas
 
 vendor_router = APIRouter(prefix="/vendors", tags=["Vendors"])
 

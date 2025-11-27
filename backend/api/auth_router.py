@@ -2,11 +2,11 @@
 
 from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks
 from sqlalchemy.orm import Session
-from database import get_db
-from models import Vendor
-from schemas import PasswordResetRequest, PasswordResetConfirm
-from utils import create_reset_token, verify_reset_token
-from email_utils import send_reset_email
+from backend.db.database import get_db
+from backend.models.models import Vendor
+from backend.schemas.schemas import PasswordResetRequest, PasswordResetConfirm
+from backend.utils.utils import create_reset_token, verify_reset_token
+from backend.services.email_utils import send_reset_email
 from passlib.context import CryptContext
 import random
 import string

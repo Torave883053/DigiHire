@@ -1,7 +1,7 @@
 # crud.py
 from sqlalchemy.orm import Session
-from models import Vendor
-from schemas import VendorCreate
+from backend.models.models import Vendor
+from backend.schemas.schemas import VendorCreate
 from sqlalchemy.exc import IntegrityError
 from fastapi import HTTPException, status
 import re

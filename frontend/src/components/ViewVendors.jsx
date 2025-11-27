@@ -46,7 +46,7 @@ function ViewVendors() {
   };
 
   const truncateWebsite = (url) => {
-    if (!url) return ""; // FIX: no dash here
+    if (!url) return "";
     let clean = url.replace(/^https?:\/\//, "");
     return clean.length > 12 ? clean.slice(0, 12) + "..." : clean;
   };
@@ -139,6 +139,7 @@ function ViewVendors() {
                       )}
                     </td>
 
+                    {/* Small Toggle Button */}
                     <td className="border border-gray-300 p-2 text-center">
                       <label className="inline-flex items-center cursor-pointer relative">
                         <input
@@ -147,8 +148,8 @@ function ViewVendors() {
                           checked={toggleState[v.id] || false}
                           onChange={() => handleToggle(v.id, toggleState[v.id] || false)}
                         />
-                        <div className="w-11 h-6 bg-gray-300 rounded-full peer-checked:bg-green-500 transition-colors relative">
-                          <div className="absolute top-[2px] left-[2px] w-5 h-5 bg-white rounded-full shadow transition-all duration-300 peer-checked:translate-x-5"></div>
+                        <div className="w-9 h-5 bg-gray-300 rounded-full peer-checked:bg-green-500 transition-colors relative">
+                          <div className="absolute top-[2px] left-[2px] w-4 h-4 bg-white rounded-full shadow transition-all duration-300 peer-checked:translate-x-4"></div>
                         </div>
                       </label>
                     </td>
