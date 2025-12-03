@@ -3,7 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from backend.db.database import engine, Base
 import backend.models.models as models
 from backend.api.vendor_router import vendor_router
-from backend.api.auth_router import auth_router
 
 app = FastAPI(title="DigiHire Backend")
 
@@ -26,7 +25,6 @@ Base.metadata.create_all(bind=engine)
 
 # Include Routers
 app.include_router(vendor_router)
-app.include_router(auth_router)
 
 @app.get("/")
 def root():

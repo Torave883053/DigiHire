@@ -68,10 +68,10 @@ const VendorForm = ({ initialData, onSave }) => {
         await axios.post("http://127.0.0.1:8000/vendors/", formData);
         alert("Vendor Added Successfully!");
 
-        await axios.post(
-          "http://127.0.0.1:8000/auth/password-reset-request",
-          { email: formData.email }
-        );
+        // await axios.post(
+        //   "http://127.0.0.1:8000/auth/password-reset-request",
+        //   { email: formData.email }
+        // );
       }
       onSave();
     } catch (err) {

@@ -5,7 +5,15 @@ from backend.schemas.schemas import VendorCreate
 from sqlalchemy.exc import IntegrityError
 from fastapi import HTTPException, status
 import re
+import string
+import random
+from backend.services.email_utils import send_vendor_email
+from passlib.context import CryptContext
 
+
+
+pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
+ENV_MODE = "LOCAL"     # Change to PRODUCTION when deploying
 
 # ------------------------
 # GST VALIDATION
@@ -49,17 +57,37 @@ def create_vendor(db: Session, vendor_in: VendorCreate):
         status="inactive"   # Default status added
     )
 
-    db.add(vendor)
 
-    try:
-        db.commit()
-        db.refresh(vendor)
-    except IntegrityError as e:
-        db.rollback()
-        raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT,
-            detail=f"Database error: {str(e.orig)}"
-        )
+    company_slug = vendor.company_name.lower().replace(" ", "")
+
+    if ENV_MODE == "LOCAL":
+        # Example → http://capgemini.localhost:3000/login
+        login_url = f"http://{company_slug}.localhost:3000/login"
+    else:
+        # Example → https://capgemini.digihire.com/login
+        login_url = f"https://{company_slug}.digihire.com/login"
+
+    # -------------------------------------------------
+    # GENERATE RANDOM PASSWORD AND SAVE
+    # -------------------------------------------------
+    random_password = generate_random_password()
+    vendor.password = pwd_context.hash(random_password)
+    
+    db.add(vendor)
+    db.commit()
+
+    # -------------------------------------------------
+    # SEND EMAIL
+    # -------------------------------------------------
+    send_vendor_email(
+        to_email=vendor.email,
+        username=vendor.email,
+        password=random_password,
+        login_url=login_url,
+        vendor_name=vendor.vendor_name        # <-- ADDED FOR EMAIL GREETING
+    )
+
+
 
     return vendor
 
@@ -69,6 +97,13 @@ def create_vendor(db: Session, vendor_in: VendorCreate):
 # ------------------------
 def get_vendors(db: Session, skip: int = 0, limit: int = 100):
     return db.query(Vendor).offset(skip).limit(limit).all()
+
+# ---------------------------------------------------------
+# RANDOM PASSWORD GENERATOR
+# ---------------------------------------------------------
+def generate_random_password(length: int = 10):
+    characters = string.ascii_letters + string.digits
+    return ''.join(random.choice(characters) for _ in range(length))
 
 
 # ------------------------

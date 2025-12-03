@@ -6,6 +6,8 @@ import backend.services.crud as crud, backend.schemas.schemas as schemas
 vendor_router = APIRouter(prefix="/vendors", tags=["Vendors"])
 
 
+
+
 # -------------------------------------------------------------
 # ADD NEW VENDOR
 # -------------------------------------------------------------
@@ -21,7 +23,7 @@ def add_vendor(vendor: schemas.VendorCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Email already exists")
 
     return crud.create_vendor(db, vendor)
-
+    
 
 # -------------------------------------------------------------
 # GET ALL VENDORS

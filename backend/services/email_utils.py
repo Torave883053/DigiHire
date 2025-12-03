@@ -1,25 +1,21 @@
-# email_utils.py
-
 import smtplib
 from email.mime.text import MIMEText
-from fastapi import BackgroundTasks
 
 SENDER_EMAIL = "toravepravin@gmail.com"
 SENDER_PASSWORD = "jhka novs metv ccyi"   # App Password
 
-
-def send_reset_email(
-    background_tasks: BackgroundTasks,
+def send_vendor_email(
     to_email: str,
-    Username: str,
-    Password: str,
-    LoginURL: str,
-    VendorName: str
+    username: str,
+    password: str,
+    login_url: str,
+    vendor_name: str
 ):
+
     subject = "DigiHire | Your Vendor Account Login Details"
 
     body = f"""
-Hello {VendorName},
+Hello {vendor_name},
 
 Welcome to DigiHire!
 
@@ -28,9 +24,9 @@ Please find your login credentials below:
 
 ----------------------------------------
 🔐 Login Credentials
-• Login URL : {LoginURL}
-• Username  : {Username}
-• Password  : {Password}
+• Login URL : {login_url}
+• Username  : {username}
+• Password  : {password}
 ----------------------------------------
 
 You can now log in and access your vendor dashboard.
@@ -48,9 +44,7 @@ www.digihire.com
     msg["From"] = SENDER_EMAIL
     msg["To"] = to_email
 
-    def send_mail():
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-            server.login(SENDER_EMAIL, SENDER_PASSWORD)
-            server.send_message(msg)
-
-    background_tasks.add_task(send_mail)
+    # 🚀 Send email directly, no background task
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+        server.login(SENDER_EMAIL, SENDER_PASSWORD)
+        server.send_message(msg)
